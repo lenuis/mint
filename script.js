@@ -543,9 +543,174 @@ document.body.addEventListener("click", (e) => {
       interactiveEl.style.transform = '';
     }, 150);
     
-    showToast(interactiveEl.dataset.clickLabel);
+    const label = interactiveEl.dataset.clickLabel;
+    
+    // Check if it's a structural element that should open the detail pane
+    if (
+      interactiveEl.classList.contains('list-row') || 
+      interactiveEl.classList.contains('bento-card') ||
+      interactiveEl.classList.contains('btn-primary') ||
+      interactiveEl.classList.contains('btn-outline')
+    ) {
+      openDetailPane(currentPageId, label);
+    } else {
+      showToast(label);
+    }
   }
 });
+
+// --- Detail Pane Logic ---
+const detailOverlay = document.getElementById("detailOverlay");
+const detailPane = document.getElementById("detailPane");
+const detailPaneClose = document.getElementById("detailPaneClose");
+const detailPaneTitle = document.getElementById("detailPaneTitle");
+const detailPaneContent = document.getElementById("detailPaneContent");
+const detailPaneFooter = document.getElementById("detailPaneFooter");
+
+function openDetailPane(pageContext, itemLabel) {
+  const isNew = itemLabel.includes('新建') || itemLabel.includes('记录') || itemLabel.includes('规划');
+  detailPaneTitle.textContent = isNew ? '新建项目' : '查看详情';
+  
+  let contentHtml = '';
+  let footerHtml = `
+    <button class="btn-ghost interactive" data-click-label="取消" onclick="closeDetailPane()">取消</button>
+    <button class="btn-primary interactive" data-click-label="保存" onclick="saveAndCloseDetail()">保存更改</button>
+  `;
+
+  if (pageContext === 'tasks') {
+    contentHtml = `
+      <div class="form-group">
+        <label class="form-label">任务标题</label>
+        <input type="text" class="form-input" value="${isNew ? '' : itemLabel}" placeholder="输入任务名称...">
+      </div>
+      <div style="display:flex; gap: 16px;">
+        <div class="form-group" style="flex:1;">
+          <label class="form-label">状态</label>
+          <select class="form-select">
+            <option>待处理 (To Do)</option>
+            <option ${isNew ? '' : 'selected'}>进行中 (In Progress)</option>
+            <option>已完成 (Done)</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label class="form-label">优先级</label>
+          <select class="form-select">
+            <option>P0 - 紧急</option>
+            <option selected>P1 - 高</option>
+            <option>P2 - 中</option>
+            <option>P3 - 低</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">详细描述 (Markdown)</label>
+        <textarea class="form-textarea" placeholder="输入任务的验收标准、相关 PR 链接...">${isNew ? '' : '此任务正在处理中。由于 V8 引擎在渲染超大规模数据时的机制问题，需要将目前的 WebGL 渲染管线迁移至 WebGPU。\n\n## 验收标准\n- [ ] 帧率在 10w 节点下稳定 60fps\n- [ ] 兼容 Safari 和 Chrome'}</textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">子任务清单</label>
+        <div>
+          <div class="subtask-item done"><input type="checkbox" checked><span>阅读架构升级文档</span></div>
+          <div class="subtask-item"><input type="checkbox"><span>完成 Shader 转换</span></div>
+          <div class="subtask-item"><input type="checkbox"><span>性能压测与基准对比</span></div>
+          <div class="tag-input" style="width: fit-content; margin-top: 12px;">+ 添加子任务</div>
+        </div>
+      </div>
+    `;
+    if (!isNew) {
+      footerHtml = `
+        <button class="btn-ghost interactive" style="color:var(--danger); margin-right:auto;" onclick="closeDetailPane()">删除任务</button>
+        <button class="btn-ghost interactive" onclick="closeDetailPane()">取消</button>
+        <button class="btn-primary interactive" onclick="saveAndCloseDetail()">更新状态</button>
+      `;
+    }
+  } else if (pageContext === 'finance') {
+    contentHtml = `
+      <div class="form-group">
+        <label class="form-label">交易金额</label>
+        <input type="text" class="form-input" style="font-size: 28px; font-weight: bold; color: var(--text-primary); font-family: monospace;" value="${isNew ? '' : '145.20'}" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">交易类型</label>
+        <div class="tag-group">
+          <span class="badge ${itemLabel.includes('Pro Plan') ? 'neutral' : 'accent'}">支出 (Expense)</span>
+          <span class="badge ${itemLabel.includes('Pro Plan') ? 'accent' : 'neutral'}">收入 (Income)</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">交易对象 / 说明</label>
+        <input type="text" class="form-input" value="${isNew ? '' : itemLabel}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">发生日期</label>
+        <input type="date" class="form-input" value="2026-05-11">
+      </div>
+      <div class="form-group">
+        <label class="form-label">发票与备注</label>
+        <textarea class="form-textarea" placeholder="添加补充说明，或粘贴发票图片地址..."></textarea>
+      </div>
+    `;
+  } else if (pageContext === 'notes') {
+    contentHtml = `
+      <div class="form-group">
+        <input type="text" class="form-input" style="font-size: 22px; font-weight: bold; border: none; padding: 0; background: transparent; border-radius: 0; border-bottom: 1px solid var(--border-subtle);" value="${isNew ? '无标题文档' : itemLabel}">
+      </div>
+      <div class="tag-group" style="margin-bottom: 16px;">
+        <span class="badge neutral">#技术沉淀</span>
+        <span class="badge neutral">#架构设计</span>
+        <span class="tag-input">+ 添加标签</span>
+      </div>
+      <div class="form-group">
+        <textarea class="form-textarea" style="border: none; padding: 0; background: transparent; min-height: 400px;" placeholder="开始编写文档 (支持 Markdown)...">
+${isNew ? '' : '## 背景与现状\n\n目前的模块联邦方案在处理多团队并行开发时，存在显著的依赖冲突风险...\n\n## 解决思路\n\n1. 统一构建工具链到 Rspack\n2. 收敛公共库版本\n\n> "架构设计的本质是管理复杂度和变化。"'}
+        </textarea>
+      </div>
+    `;
+  } else {
+    // 通用 Fallback 详情面板
+    contentHtml = `
+      <div class="form-group">
+        <label class="form-label">项目名称</label>
+        <input type="text" class="form-input" value="${itemLabel}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">状态</label>
+        <select class="form-select">
+          <option selected>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">元数据配置</label>
+        <textarea class="form-textarea" style="font-family: monospace;">{
+  "id": "${itemLabel}",
+  "createdAt": "${new Date().toISOString()}",
+  "env": "production"
+}</textarea>
+      </div>
+    `;
+  }
+
+  detailPaneContent.innerHTML = contentHtml;
+  detailPaneFooter.innerHTML = footerHtml;
+
+  detailOverlay.classList.add("show");
+  detailPane.classList.add("show");
+}
+
+function closeDetailPane() {
+  detailOverlay.classList.remove("show");
+  detailPane.classList.remove("show");
+}
+
+// 供内联 onclick 使用
+window.closeDetailPane = closeDetailPane;
+window.saveAndCloseDetail = function() {
+  showToast("更改已保存");
+  closeDetailPane();
+};
+
+detailPaneClose.addEventListener("click", closeDetailPane);
+detailOverlay.addEventListener("click", closeDetailPane);
 
 // Initialize
 renderNavigation();

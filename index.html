@@ -55,6 +55,23 @@
   <!-- 提示浮层 -->
   <div id="toast" class="toast-message"></div>
 
+  <!-- 详情侧滑面板 (Side Panel) -->
+  <div id="detailOverlay" class="detail-overlay"></div>
+  <div id="detailPane" class="detail-pane">
+    <div class="detail-pane-header">
+      <h3 id="detailPaneTitle">详情</h3>
+      <button class="btn-icon" id="detailPaneClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    <div class="detail-pane-content" id="detailPaneContent">
+      <!-- 动态表单和交互内容将渲染在这里 -->
+    </div>
+    <div class="detail-pane-footer" id="detailPaneFooter">
+      <!-- 动态操作按钮将渲染在这里 -->
+    </div>
+  </div>
+
   <!-- 模板区域（仅用于结构参考，具体渲染在 JS 中进行） -->
   <template id="bentoTemplate">
     <div class="bento-grid"></div>
