@@ -17,16 +17,12 @@
     <div class="app-shell">
       <aside class="control-panel glass-panel">
         <div class="brand-block">
-          <p class="eyebrow">Prototype System</p>
           <h1>个人管理中枢</h1>
-          <p class="brand-copy">
-            当前仅为可点击样板，优先确认信息密度、毛玻璃质感、页面结构与桌面/手机尺寸策略。
-          </p>
         </div>
 
         <section class="control-group">
           <div class="section-title">
-            <span>页面导航</span>
+            <span>页面</span>
             <button class="ghost-button" id="shuffleButton" type="button">随机查看</button>
           </div>
           <nav class="page-nav" id="pageNav"></nav>
@@ -34,40 +30,28 @@
 
         <section class="control-group">
           <div class="section-title">
-            <span>预览设备</span>
+            <span>设备</span>
           </div>
           <div class="device-switch" id="deviceSwitch">
             <button class="mode-button active" data-device="desktop" type="button">桌面端</button>
             <button class="mode-button" data-device="mobile" type="button">手机端</button>
           </div>
           <div class="dimension-card">
-            <p class="dimension-label">当前尺寸</p>
+            <p class="dimension-label">尺寸</p>
             <strong id="dimensionLabel">1440 x 960</strong>
             <p id="dimensionHint">桌面端采用信息密度更高的分栏布局。</p>
           </div>
-        </section>
-
-        <section class="control-group">
-          <div class="section-title">
-            <span>交互说明</span>
-          </div>
-          <ul class="hint-list">
-            <li>左侧切换 6 个独立页面。</li>
-            <li>页面中的按钮、标签、卡片都可点击。</li>
-            <li>顶部设备开关展示独立尺寸的桌面版与手机版样板。</li>
-          </ul>
         </section>
       </aside>
 
       <main class="stage-area">
         <div class="stage-meta glass-panel">
           <div>
-            <p class="eyebrow">Glassmorphism UI</p>
             <h2 id="stageTitle">任务页面</h2>
           </div>
           <div class="stage-actions">
-            <button class="ghost-button" id="previewAction" type="button">点我试试</button>
-            <div class="toast" id="toast">已进入样板浏览模式</div>
+            <button class="ghost-button" id="previewAction" type="button">下一页</button>
+            <div class="toast" id="toast">已切换</div>
           </div>
         </div>
 
@@ -85,9 +69,7 @@
       <section class="page-layout">
         <header class="hero glass-card">
           <div>
-            <p class="eyebrow" data-field="heroTag"></p>
             <h3 data-field="title"></h3>
-            <p class="hero-description" data-field="description"></p>
           </div>
           <div class="hero-actions">
             <button class="primary-button interactive" type="button" data-field="primaryAction"></button>
@@ -95,11 +77,11 @@
           </div>
         </header>
 
-        <section class="focus-grid">
-          <div class="focus-main glass-card" data-field="focusMain"></div>
-          <aside class="focus-side">
-            <div class="focus-quick glass-card" data-field="focusQuick"></div>
-            <div class="focus-progress glass-card" data-field="focusProgress"></div>
+        <section class="priority-grid">
+          <div class="priority-main glass-card" data-field="focusMain"></div>
+          <aside class="priority-side">
+            <div class="priority-actions glass-card" data-field="focusQuick"></div>
+            <div class="priority-stats glass-card" data-field="focusProgress"></div>
           </aside>
         </section>
 
