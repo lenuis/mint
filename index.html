@@ -2,80 +2,89 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Nexus OS - 个人中枢</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Nexus Workspace</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="app-layout">
-    <!-- 桌面端侧边栏 -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="logo"></div>
-        <h1>Nexus OS</h1>
+  <div class="ant-layout">
+    
+    <!-- 桌面端侧边栏 (Sider) -->
+    <aside class="ant-layout-sider">
+      <div class="sider-logo">
+        <div class="logo-mark"></div>
+        <span class="logo-text">Nexus</span>
       </div>
-      <nav class="nav-menu" id="desktopNav"></nav>
-      <div class="sidebar-footer">
+      <ul class="ant-menu" id="desktopMenu">
+        <!-- JS 动态渲染桌面端菜单 -->
+      </ul>
+      <div class="sider-footer">
         <div class="user-profile">
-          <div class="avatar">E</div>
-          <div class="user-info">
-            <span class="user-name">Evan.</span>
-            <span class="user-status">在线 · 专注中</span>
+          <div class="ant-avatar">E</div>
+          <div class="user-meta">
+            <span class="name">Evan You</span>
+            <span class="status">Pro Plan</span>
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- 主内容区 -->
-    <main class="main-content">
-      <header class="topbar">
-        <div class="topbar-left">
-          <h2 id="pageTitle">Overview</h2>
-          <span id="pageSubtitle" class="page-subtitle"></span>
+    <div class="ant-layout-main">
+      <!-- 顶部导航栏 (Header) -->
+      <header class="ant-layout-header">
+        <div class="header-left">
+          <h1 class="page-title" id="pageTitle">Tasks</h1>
+          <span class="page-subtitle" id="pageSubtitle">今日待办与核心工作流</span>
         </div>
-        <div class="topbar-right">
-          <button class="btn-ghost interactive" id="secondaryActionBtn">Action</button>
-          <button class="btn-primary interactive" id="primaryActionBtn">Action</button>
+        <div class="header-right">
+          <button class="ant-btn ant-btn-default interactive" id="secondaryActionBtn">选项</button>
+          <button class="ant-btn ant-btn-primary interactive" id="primaryActionBtn">新建</button>
         </div>
       </header>
-      
-      <div class="scroll-area">
-        <div id="pageRoot" class="bento-container">
-          <!-- 动态渲染的便当盒内容 -->
+
+      <!-- 核心内容区 (Content) -->
+      <main class="ant-layout-content">
+        <div class="content-scroll-area">
+          <div class="responsive-grid" id="pageRoot">
+            <!-- JS 动态渲染 AntD 风格的 Card -->
+          </div>
         </div>
+      </main>
+    </div>
+
+    <!-- 手机端底部导航栏 (Bottom TabBar) -->
+    <nav class="ant-tabbar" id="mobileTabBar">
+      <!-- JS 动态渲染手机端菜单 -->
+    </nav>
+  </div>
+
+  <!-- 提示浮层 (Message) -->
+  <div id="antMessage" class="ant-message">
+    <div class="ant-message-notice">
+      <div class="ant-message-notice-content" id="messageContent">操作成功</div>
+    </div>
+  </div>
+
+  <!-- 侧滑详情面板 (Drawer) -->
+  <div id="antDrawerMask" class="ant-drawer-mask"></div>
+  <div id="antDrawer" class="ant-drawer">
+    <div class="ant-drawer-content">
+      <div class="ant-drawer-header">
+        <div class="ant-drawer-title" id="drawerTitle">查看详情</div>
+        <button class="ant-drawer-close" id="drawerClose">
+          <svg viewBox="64 64 896 896" focusable="false" data-icon="close" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 00203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path></svg>
+        </button>
       </div>
-    </main>
-
-    <!-- 手机端底部导航 -->
-    <nav class="mobile-nav" id="mobileNav"></nav>
-  </div>
-
-  <!-- 提示浮层 -->
-  <div id="toast" class="toast-message"></div>
-
-  <!-- 详情侧滑面板 (Side Panel) -->
-  <div id="detailOverlay" class="detail-overlay"></div>
-  <div id="detailPane" class="detail-pane">
-    <div class="detail-pane-header">
-      <h3 id="detailPaneTitle">详情</h3>
-      <button class="btn-icon" id="detailPaneClose">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-      </button>
-    </div>
-    <div class="detail-pane-content" id="detailPaneContent">
-      <!-- 动态表单和交互内容将渲染在这里 -->
-    </div>
-    <div class="detail-pane-footer" id="detailPaneFooter">
-      <!-- 动态操作按钮将渲染在这里 -->
+      <div class="ant-drawer-body" id="drawerBody">
+        <!-- 动态表单和交互内容 -->
+      </div>
+      <div class="ant-drawer-footer" id="drawerFooter">
+        <!-- 动态操作按钮 -->
+      </div>
     </div>
   </div>
-
-  <!-- 模板区域（仅用于结构参考，具体渲染在 JS 中进行） -->
-  <template id="bentoTemplate">
-    <div class="bento-grid"></div>
-  </template>
 
   <script src="script.js"></script>
 </body>
