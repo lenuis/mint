@@ -1,99 +1,65 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>生活管理样板</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Noto+Serif+SC:wght@700;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <aside class="control-panel glass-panel">
-        <div class="brand-block">
-          <h1>个人管理中枢</h1>
-        </div>
-
-        <section class="control-group">
-          <div class="section-title">
-            <span>页面</span>
-            <button class="ghost-button" id="shuffleButton" type="button">随机查看</button>
-          </div>
-          <nav class="page-nav" id="pageNav"></nav>
-        </section>
-
-        <section class="control-group">
-          <div class="section-title">
-            <span>设备</span>
-          </div>
-          <div class="device-switch" id="deviceSwitch">
-            <button class="mode-button active" data-device="desktop" type="button">桌面端</button>
-            <button class="mode-button" data-device="mobile" type="button">手机端</button>
-          </div>
-          <div class="dimension-card">
-            <p class="dimension-label">尺寸</p>
-            <strong id="dimensionLabel">1440 x 960</strong>
-            <p id="dimensionHint">桌面端采用信息密度更高的分栏布局。</p>
-          </div>
-        </section>
-      </aside>
-
-      <main class="stage-area">
-        <div class="stage-meta glass-panel">
-          <div>
-            <h2 id="stageTitle">任务页面</h2>
-          </div>
-          <div class="stage-actions">
-            <button class="ghost-button" id="previewAction" type="button">下一页</button>
-            <div class="toast" id="toast">已切换</div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexus OS - 个人中枢</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- 桌面端侧边栏 -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"></div>
+        <h1>Nexus OS</h1>
+      </div>
+      <nav class="nav-menu" id="desktopNav"></nav>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">E</div>
+          <div class="user-info">
+            <span class="user-name">Evan.</span>
+            <span class="user-status">在线 · 专注中</span>
           </div>
         </div>
+      </div>
+    </aside>
 
-        <div class="stage-wrapper">
-          <div class="stage-scaler" id="stageScaler">
-            <div class="page-canvas desktop" id="pageCanvas">
-              <div class="page-root" id="pageRoot"></div>
-            </div>
-          </div>
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="pageTitle">Overview</h2>
+          <span id="pageSubtitle" class="page-subtitle"></span>
         </div>
-      </main>
-    </div>
+        <div class="topbar-right">
+          <button class="btn-ghost interactive" id="secondaryActionBtn">Action</button>
+          <button class="btn-primary interactive" id="primaryActionBtn">Action</button>
+        </div>
+      </header>
+      
+      <div class="scroll-area">
+        <div id="pageRoot" class="bento-container">
+          <!-- 动态渲染的便当盒内容 -->
+        </div>
+      </div>
+    </main>
 
-    <template id="pageTemplate">
-      <section class="page-layout">
-        <header class="hero glass-card">
-          <div>
-            <h3 data-field="title"></h3>
-          </div>
-          <div class="hero-actions">
-            <button class="primary-button interactive" type="button" data-field="primaryAction"></button>
-            <button class="secondary-button interactive" type="button" data-field="secondaryAction"></button>
-          </div>
-        </header>
+    <!-- 手机端底部导航 -->
+    <nav class="mobile-nav" id="mobileNav"></nav>
+  </div>
 
-        <section class="priority-grid">
-          <div class="priority-main glass-card" data-field="focusMain"></div>
-          <aside class="priority-side">
-            <div class="priority-actions glass-card" data-field="focusQuick"></div>
-            <div class="priority-stats glass-card" data-field="focusProgress"></div>
-          </aside>
-        </section>
+  <!-- 提示浮层 -->
+  <div id="toast" class="toast-message"></div>
 
-        <section class="metric-grid" data-field="metrics"></section>
+  <!-- 模板区域（仅用于结构参考，具体渲染在 JS 中进行） -->
+  <template id="bentoTemplate">
+    <div class="bento-grid"></div>
+  </template>
 
-        <section class="board-grid">
-          <div class="board-main" data-field="mainSections"></div>
-          <aside class="board-side" data-field="sideSections"></aside>
-        </section>
-      </section>
-    </template>
-
-    <script src="./script.js"></script>
-  </body>
-  </html>
+  <script src="script.js"></script>
+</body>
+</html>
