@@ -3,13 +3,13 @@ const DEVICE_PRESETS = {
     width: 1440,
     height: 960,
     label: "1440 x 960",
-    hint: "桌面端采用信息密度更高的分栏布局。",
+    hint: "桌面端优先展示高频操作区，右侧补充状态与次级入口。",
   },
   mobile: {
     width: 430,
     height: 932,
     label: "430 x 932",
-    hint: "手机端使用独立尺寸设定，强化单列滚动与触控区。",
+    hint: "手机端采用独立尺寸与单列层级，先操作，再查看细节。",
   },
 };
 
@@ -20,10 +20,34 @@ const pages = [
     navMeta: "执行面板",
     heroTag: "Execution Desk",
     title: "任务页面",
-    description:
-      "聚合今日待办、执行队列、进度标签、委派记录与阻塞项。结构强调紧凑信息密度，适合桌面端高频管理。",
+    description: "把最常做的事情推到第一屏，先进入执行，再逐层查看提醒、时间线与阻塞信息。",
     primaryAction: "新建任务",
-    secondaryAction: "查看看板",
+    secondaryAction: "进入专注",
+    focus: {
+      title: "今日主任务区",
+      summary: "以“现在就该做什么”为核心，把高频任务、专注块和一键动作集中在视觉中心，避免用户先被大量信息打断。",
+      kpis: [
+        { label: "当前专注", value: "45 分钟" },
+        { label: "待立即处理", value: "3 项" },
+        { label: "今日完成率", value: "54%" },
+      ],
+      items: [
+        { title: "优先 1", text: "完成家庭预算复盘，补齐餐饮与通勤分类。", meta: "预计 45 分钟" },
+        { title: "优先 2", text: "确认体检预约材料，优先补证件与过往报告。", meta: "18:30 截止" },
+        { title: "优先 3", text: "继续整理页面视觉反馈，先处理高影响问题。", meta: "剩余 6 条" },
+      ],
+      meta: [
+        { label: "下一步", value: "先做无需等待外部反馈的任务" },
+        { label: "提醒节奏", value: "专注结束后自动进入跟进检查" },
+      ],
+      quickActions: ["一键开始专注", "快速加任务", "批量调优先级", "复制今日模板"],
+      progress: [
+        { label: "高频操作", value: "主任务、专注、加任务" },
+        { label: "第二层", value: "时间轴、委派、阻塞提醒" },
+        { label: "深层信息", value: "历史记录与完整看板" },
+        { label: "当前状态", value: "适合快速进入执行" },
+      ],
+    },
     metrics: [
       { label: "今日任务", value: "26", meta: "已完成 14，延后 3" },
       { label: "高优先级", value: "08", meta: "2 项待确认负责人" },
@@ -33,43 +57,19 @@ const pages = [
     mainSections: [
       {
         title: "执行清单",
-        note: "按优先级与上下文整理，点击条目可模拟选中反馈。",
+        note: "第二层内容，仍然保持高可用，但不抢第一屏主操作位。",
         chips: ["全部", "今天", "高优先", "可委派", "等待中"],
         kind: "list",
         items: [
-          {
-            title: "完成本周家庭预算复盘",
-            subtitle: "家庭财务 / 需整理餐饮、通勤、娱乐三类支出",
-            status: { text: "今天必须", tone: "warning" },
-            meta: "预计 45 分钟",
-            action: "打开明细",
-          },
-          {
-            title: "确认 5 月体检预约材料",
-            subtitle: "个人事项 / 上传身份证、社保卡、过往检查报告",
-            status: { text: "待准备", tone: "pink" },
-            meta: "截止 18:30",
-            action: "补齐资料",
-          },
-          {
-            title: "整理项目页面视觉反馈",
-            subtitle: "工作协同 / 统一记录布局、色彩、文案层级问题",
-            status: { text: "进行中", tone: "success" },
-            meta: "已处理 9/15 条",
-            action: "继续标注",
-          },
-          {
-            title: "给父母安排周末出行路线",
-            subtitle: "家庭计划 / 高铁时间、酒店、打车接驳一并确认",
-            status: { text: "待确认", tone: "warning" },
-            meta: "涉及 3 个城市",
-            action: "查看路线",
-          },
+          { title: "完成本周家庭预算复盘", subtitle: "家庭财务 / 需整理餐饮、通勤、娱乐三类支出", status: { text: "今天必须", tone: "warning" }, meta: "预计 45 分钟", action: "打开明细" },
+          { title: "确认 5 月体检预约材料", subtitle: "个人事项 / 上传身份证、社保卡、过往检查报告", status: { text: "待准备", tone: "pink" }, meta: "截止 18:30", action: "补齐资料" },
+          { title: "整理项目页面视觉反馈", subtitle: "工作协同 / 统一记录布局、色彩、文案层级问题", status: { text: "进行中", tone: "success" }, meta: "已处理 9/15 条", action: "继续标注" },
+          { title: "给父母安排周末出行路线", subtitle: "家庭计划 / 高铁时间、酒店、打车接驳一并确认", status: { text: "待确认", tone: "warning" }, meta: "涉及 3 个城市", action: "查看路线" },
         ],
       },
       {
         title: "专注区块",
-        note: "把大任务拆成更小的行动块，便于在设计确认前验证交互结构。",
+        note: "把工作流拆成短时段，帮助用户只关注下一步。",
         kind: "compact",
         items: [
           { title: "09:00 - 10:00", text: "集中处理票据录入与标签归类", meta: "深度工作" },
@@ -79,7 +79,7 @@ const pages = [
       },
       {
         title: "委派与跟进",
-        note: "用于展示紧凑的卡片操作区。",
+        note: "更深一层的信息，用于处理协作与补位动作。",
         kind: "split",
         left: {
           title: "待跟进事项",
@@ -129,10 +129,34 @@ const pages = [
     navMeta: "目标编排",
     heroTag: "Planning Studio",
     title: "计划页面",
-    description:
-      "面向周计划、月计划和季度主题，强调目标拆分、阶段状态、关键里程碑与风险前置记录。",
+    description: "先给出当前周期最重要的规划动作，再向下展开阶段、里程碑与回顾说明，避免计划页变成纯信息堆叠。",
     primaryAction: "创建计划",
     secondaryAction: "切换周期",
+    focus: {
+      title: "当前规划重点",
+      summary: "首页只保留最值得立刻编辑的计划内容，把关键里程碑和待决节点放到身边，降低切换成本。",
+      kpis: [
+        { label: "本周重点", value: "5 个" },
+        { label: "临近节点", value: "2 个" },
+        { label: "完成偏差", value: "+9%" },
+      ],
+      items: [
+        { title: "周计划整理", text: "本周优先收敛健康、理财、出行三个主题。", meta: "先处理有截止日期的计划" },
+        { title: "里程碑确认", text: "锁定体检、预算、旅行方案三个必须落地的节点。", meta: "本周日复盘前完成" },
+        { title: "风险前置", text: "把资料准备类事项提前到本周三之前完成。", meta: "减少后期拖延" },
+      ],
+      meta: [
+        { label: "推荐顺序", value: "先看当前周期，再看下阶段目标" },
+        { label: "层级策略", value: "计划动作前置，回顾总结后置" },
+      ],
+      quickActions: ["本周计划", "新增里程碑", "复制月模板", "打开回顾"],
+      progress: [
+        { label: "高频操作", value: "改周期、加计划、调节点" },
+        { label: "第二层", value: "阶段规划与目标拆分" },
+        { label: "深层信息", value: "周观察与策略说明" },
+        { label: "当前状态", value: "需要继续收敛重点" },
+      ],
+    },
     metrics: [
       { label: "本周重点", value: "05", meta: "覆盖健康、理财、旅行、学习" },
       { label: "里程碑", value: "12", meta: "本月已完成 7 个" },
@@ -142,7 +166,7 @@ const pages = [
     mainSections: [
       {
         title: "阶段规划",
-        note: "用紧凑的阶段卡展示策略目标。",
+        note: "先看最重要阶段，再浏览其余层级。",
         chips: ["本周", "本月", "季度", "年度"],
         kind: "compact",
         items: [
@@ -153,42 +177,18 @@ const pages = [
       },
       {
         title: "目标拆分",
-        note: "将抽象目标拆成行动、资源、风险与完成标记。",
+        note: "第二层的执行结构，适合进一步细化。",
         kind: "list",
         items: [
-          {
-            title: "5 月个人效率体系更新",
-            subtitle: "动作：统一任务标签、模板、晨晚复盘格式",
-            status: { text: "结构完成", tone: "success" },
-            meta: "剩余：移动端版式验证",
-            action: "展开方案",
-          },
-          {
-            title: "家庭旅行总表",
-            subtitle: "动作：确认预算边界、备选路线与老人休息节奏",
-            status: { text: "待比价", tone: "warning" },
-            meta: "资源：酒店 6 家 / 车次 9 个",
-            action: "查看节点",
-          },
-          {
-            title: "年度健康指标追踪",
-            subtitle: "动作：体重、睡眠、体检、运动频率统一归档",
-            status: { text: "已开档", tone: "pink" },
-            meta: "风险：连续性不足",
-            action: "录入计划",
-          },
-          {
-            title: "阅读与学习计划",
-            subtitle: "动作：划分主题书单、每周阅读时段、笔记产出模板",
-            status: { text: "准备中", tone: "warning" },
-            meta: "首批书单 8 本",
-            action: "设置节奏",
-          },
+          { title: "5 月个人效率体系更新", subtitle: "动作：统一任务标签、模板、晨晚复盘格式", status: { text: "结构完成", tone: "success" }, meta: "剩余：移动端版式验证", action: "展开方案" },
+          { title: "家庭旅行总表", subtitle: "动作：确认预算边界、备选路线与老人休息节奏", status: { text: "待比价", tone: "warning" }, meta: "资源：酒店 6 家 / 车次 9 个", action: "查看节点" },
+          { title: "年度健康指标追踪", subtitle: "动作：体重、睡眠、体检、运动频率统一归档", status: { text: "已开档", tone: "pink" }, meta: "风险：连续性不足", action: "录入计划" },
+          { title: "阅读与学习计划", subtitle: "动作：划分主题书单、每周阅读时段、笔记产出模板", status: { text: "准备中", tone: "warning" }, meta: "首批书单 8 本", action: "设置节奏" },
         ],
       },
       {
         title: "计划回顾",
-        note: "用更细致的文本说明验证页面密度。",
+        note: "更深层策略内容，默认不抢首要视觉。",
         kind: "journal",
         items: [
           { title: "本周观察", text: "计划执行阻力主要来自临时事务插入，因此顶部需要更明显的缓冲区和重排入口。" },
@@ -227,10 +227,34 @@ const pages = [
     navMeta: "消费总览",
     heroTag: "Finance Ledger",
     title: "记账页面",
-    description:
-      "展示日常支出、分类预算、账户余额、固定账单与收支记录。侧重高密度数字信息与快速筛选的样板样式。",
+    description: "记账页先给录入、最近流水和预算余量，再将账户、账单与提醒逐层放下，让用户先完成最常见动作。",
     primaryAction: "记录支出",
-    secondaryAction: "导出报表",
+    secondaryAction: "快速分类",
+    focus: {
+      title: "高频记账区",
+      summary: "第一屏直接服务‘记一笔’和‘看最近消费’，把预算和异常提醒放在同一视线范围，让用户先完成记录，再做分析。",
+      kpis: [
+        { label: "待分类", value: "2 笔" },
+        { label: "今日支出", value: "¥482" },
+        { label: "餐饮余量", value: "30%" },
+      ],
+      items: [
+        { title: "立即录入", text: "新增一笔支出并自动带入时间、账户和最近分类。", meta: "最快 2 步完成" },
+        { title: "补齐缺漏", text: "先处理候补补差与报销流水，避免月末堆积。", meta: "当前 2 笔待补" },
+        { title: "预算校正", text: "先看餐饮与通勤分类，及时纠正超支倾向。", meta: "本周偏高" },
+      ],
+      meta: [
+        { label: "推荐路径", value: "记一笔 -> 分类 -> 查看预算余量" },
+        { label: "层级逻辑", value: "录入动作高于账户总览与历史分析" },
+      ],
+      quickActions: ["记录支出", "扫描票据", "快速分类", "查看本周"],
+      progress: [
+        { label: "高频操作", value: "记账、分类、改预算" },
+        { label: "第二层", value: "账户与即将到期账单" },
+        { label: "深层信息", value: "长期异常与周期复盘" },
+        { label: "当前状态", value: "适合快速清账" },
+      ],
+    },
     metrics: [
       { label: "本月支出", value: "¥8,420", meta: "预算使用 63%" },
       { label: "本月收入", value: "¥14,800", meta: "含兼职与报销" },
@@ -240,43 +264,19 @@ const pages = [
     mainSections: [
       {
         title: "最近流水",
-        note: "按时间与类别压缩呈现，方便验证卡片间距。",
+        note: "作为第二层内容，方便快速复核刚发生的消费。",
         chips: ["全部", "餐饮", "通勤", "居家", "娱乐", "医疗"],
         kind: "list",
         items: [
-          {
-            title: "午餐与咖啡",
-            subtitle: "餐饮消费 / 公司附近简餐 + 手冲咖啡",
-            status: { text: "已记账", tone: "success" },
-            meta: "¥58.00 / 12:18",
-            action: "查看票据",
-          },
-          {
-            title: "高铁候补补差",
-            subtitle: "行程支出 / 城际出行改签差价",
-            status: { text: "待分类", tone: "warning" },
-            meta: "¥124.50 / 09:42",
-            action: "调整分类",
-          },
-          {
-            title: "超市采购",
-            subtitle: "居家用品 / 日用品、清洁、早餐储备",
-            status: { text: "预算内", tone: "success" },
-            meta: "¥286.90 / 昨日 20:10",
-            action: "拆分条目",
-          },
-          {
-            title: "体检预约定金",
-            subtitle: "医疗健康 / 预约金可在到院后抵扣",
-            status: { text: "待确认", tone: "pink" },
-            meta: "¥300.00 / 昨日 16:20",
-            action: "补备注",
-          },
+          { title: "午餐与咖啡", subtitle: "餐饮消费 / 公司附近简餐 + 手冲咖啡", status: { text: "已记账", tone: "success" }, meta: "¥58.00 / 12:18", action: "查看票据" },
+          { title: "高铁候补补差", subtitle: "行程支出 / 城际出行改签差价", status: { text: "待分类", tone: "warning" }, meta: "¥124.50 / 09:42", action: "调整分类" },
+          { title: "超市采购", subtitle: "居家用品 / 日用品、清洁、早餐储备", status: { text: "预算内", tone: "success" }, meta: "¥286.90 / 昨日 20:10", action: "拆分条目" },
+          { title: "体检预约定金", subtitle: "医疗健康 / 预约金可在到院后抵扣", status: { text: "待确认", tone: "pink" }, meta: "¥300.00 / 昨日 16:20", action: "补备注" },
         ],
       },
       {
         title: "预算分布",
-        note: "用紧凑区块展示不同分类的余量。",
+        note: "次级分析区，帮助快速判断是否需要调整。",
         kind: "compact",
         items: [
           { title: "餐饮", text: "已用 ¥1,680 / 上限 ¥2,400", meta: "余量 30%" },
@@ -286,7 +286,7 @@ const pages = [
       },
       {
         title: "账户与账单",
-        note: "这里使用双栏卡片增强样板层次。",
+        note: "更深层的资金结构信息，供进一步管理。",
         kind: "split",
         left: {
           title: "账户概况",
@@ -336,10 +336,34 @@ const pages = [
     navMeta: "路线编排",
     heroTag: "Trip Scheduler",
     title: "行程页面",
-    description:
-      "聚合日期、交通、住宿、天气、行前准备和每日动线，用于确认出行信息在桌面端与手机端的不同呈现方式。",
+    description: "行程页将出发前最常用的信息前置为‘当前旅程卡’，再递进到日程、准备项、日期和补充备注。",
     primaryAction: "添加行程",
-    secondaryAction: "切换地图",
+    secondaryAction: "查看今日动线",
+    focus: {
+      title: "当前旅程焦点",
+      summary: "先展示最近一次需要处理的旅程，把出发日期、日程入口和准备动作放在视觉中央，减少在不同模块间来回找信息。",
+      kpis: [
+        { label: "最近出发", value: "6 天后" },
+        { label: "待准备", value: "9 项" },
+        { label: "已预订", value: "11 项" },
+      ],
+      items: [
+        { title: "当前旅程", text: "苏杭 3 日家庭短途，优先照顾老人步行与休息节奏。", meta: "预算已用 70%" },
+        { title: "今日动作", text: "先确认返程高铁与酒店接驳，再补药品准备。", meta: "建议先交通后清单" },
+        { title: "临近提醒", text: "天气转雨，需要把轻便雨具和备用外套前置。", meta: "注意温差" },
+      ],
+      meta: [
+        { label: "推荐路径", value: "看当前旅程 -> 日程 -> 准备清单" },
+        { label: "层级策略", value: "出行主线优先，补充备注放侧栏" },
+      ],
+      quickActions: ["新增行程", "补交通", "加酒店", "打开准备清单"],
+      progress: [
+        { label: "高频操作", value: "看当前旅程、加预订、查准备" },
+        { label: "第二层", value: "每日安排与日期视图" },
+        { label: "深层信息", value: "天气与照顾重点备注" },
+        { label: "当前状态", value: "适合行前整理" },
+      ],
+    },
     metrics: [
       { label: "待出发", value: "04", meta: "最近一次 6 天后" },
       { label: "已订项目", value: "11", meta: "交通 5 / 住宿 3 / 活动 3" },
@@ -349,36 +373,18 @@ const pages = [
     mainSections: [
       {
         title: "行程总览",
-        note: "用于验证复杂信息卡在毛玻璃样式下的识别度。",
+        note: "先显示最重要的旅程，其余旅程作为第二层切换。",
         chips: ["本周", "本月", "家庭旅行", "商务出差"],
         kind: "list",
         items: [
-          {
-            title: "苏杭 3 日家庭短途",
-            subtitle: "5 月 18 日 - 5 月 20 日 / 两位老人同行，节奏偏轻松",
-            status: { text: "已预订", tone: "success" },
-            meta: "预算 ¥4,800 / 当前已花 ¥3,360",
-            action: "查看明细",
-          },
-          {
-            title: "深圳两日工作行",
-            subtitle: "6 月 02 日 - 6 月 03 日 / 客户拜访与现场沟通",
-            status: { text: "待出票", tone: "warning" },
-            meta: "酒店待最后确认",
-            action: "补充预订",
-          },
-          {
-            title: "青岛海边休整计划",
-            subtitle: "7 月上旬 / 需要平衡预算、天气与假期时长",
-            status: { text: "规划中", tone: "pink" },
-            meta: "备选酒店 6 家",
-            action: "比较方案",
-          },
+          { title: "苏杭 3 日家庭短途", subtitle: "5 月 18 日 - 5 月 20 日 / 两位老人同行，节奏偏轻松", status: { text: "已预订", tone: "success" }, meta: "预算 ¥4,800 / 当前已花 ¥3,360", action: "查看明细" },
+          { title: "深圳两日工作行", subtitle: "6 月 02 日 - 6 月 03 日 / 客户拜访与现场沟通", status: { text: "待出票", tone: "warning" }, meta: "酒店待最后确认", action: "补充预订" },
+          { title: "青岛海边休整计划", subtitle: "7 月上旬 / 需要平衡预算、天气与假期时长", status: { text: "规划中", tone: "pink" }, meta: "备选酒店 6 家", action: "比较方案" },
         ],
       },
       {
         title: "每日安排",
-        note: "时间轴交互用于模拟可展开日程区。",
+        note: "第二层用于快速浏览当天节奏。",
         kind: "timeline",
         items: [
           { time: "08:00", title: "酒店早餐与退房", text: "提前 20 分钟整理行李并确认药品" },
@@ -389,7 +395,7 @@ const pages = [
       },
       {
         title: "准备清单",
-        note: "用紧凑卡组展示出发前检查项。",
+        note: "更深一层的行前细节，按物品维度查看。",
         kind: "compact",
         items: [
           { title: "证件", text: "身份证、医保卡、酒店确认单、保险截图", meta: "还差打印 1 份" },
@@ -429,10 +435,34 @@ const pages = [
     navMeta: "内容归档",
     heroTag: "Memo Archive",
     title: "笔记备忘页面",
-    description:
-      "面向随手记录、主题笔记、备忘清单和灵感归档，突出高密度文本块在毛玻璃环境中的阅读节奏。",
+    description: "优先给出“立即记录”和“最近要处理的备忘”，再把主题归档、灵感片段和整理规则放到更后层。",
     primaryAction: "新增笔记",
-    secondaryAction: "筛选标签",
+    secondaryAction: "快速备忘",
+    focus: {
+      title: "即时记录区",
+      summary: "备忘最常见的是快速记录和处理刚产生的信息，因此第一屏强调录入、待办备忘和最近使用的标签入口。",
+      kpis: [
+        { label: "今日速记", value: "17 条" },
+        { label: "待归档", value: "6 条" },
+        { label: "重要提醒", value: "3 条" },
+      ],
+      items: [
+        { title: "现在就记", text: "优先捕捉临时提醒、地址、联系人和一闪而过的灵感。", meta: "最快 1 步保存" },
+        { title: "待处理备忘", text: "先整理体检报告、合同扫描件和出行说明卡。", meta: "都与近期事项强相关" },
+        { title: "主题入口", text: "把个人效率、出行经验、阅读摘录作为常用入口前置。", meta: "减少翻找成本" },
+      ],
+      meta: [
+        { label: "推荐路径", value: "先新增 -> 再整理 -> 最后归档" },
+        { label: "层级策略", value: "即时记录高于长期知识归档" },
+      ],
+      quickActions: ["文字速记", "语音转写", "加提醒", "打开待归档"],
+      progress: [
+        { label: "高频操作", value: "速记、提醒、归档" },
+        { label: "第二层", value: "主题卡片与标签浏览" },
+        { label: "深层信息", value: "整理规则与时间轴" },
+        { label: "当前状态", value: "适合快速收纳" },
+      ],
+    },
     metrics: [
       { label: "今日速记", value: "17", meta: "已整理 9 条" },
       { label: "主题笔记", value: "42", meta: "工作 / 生活 / 阅读 / 健康" },
@@ -442,43 +472,19 @@ const pages = [
     mainSections: [
       {
         title: "最新备忘",
-        note: "列表样式强调信息密度与点击反馈。",
+        note: "第二层聚焦最近内容，便于继续处理。",
         chips: ["全部", "生活", "工作", "阅读", "灵感", "提醒"],
         kind: "list",
         items: [
-          {
-            title: "周五记得带旧体检报告",
-            subtitle: "医疗提醒 / 报告放在书桌左侧抽屉文件袋",
-            status: { text: "重要", tone: "warning" },
-            meta: "创建于 08:12",
-            action: "标记已办",
-          },
-          {
-            title: "重新整理租房合同扫描件",
-            subtitle: "家庭资料 / 需要重命名并归档到个人信息库",
-            status: { text: "待归档", tone: "pink" },
-            meta: "附件 3 个",
-            action: "打开文件",
-          },
-          {
-            title: "阅读摘录：关于节奏感的设计思考",
-            subtitle: "阅读笔记 / 关注留白、密度、次级信息的排序",
-            status: { text: "已整理", tone: "success" },
-            meta: "可转入长期笔记",
-            action: "继续编辑",
-          },
-          {
-            title: "给爸妈准备出行说明卡",
-            subtitle: "旅行备忘 / 酒店地址、返程时间、联系方式",
-            status: { text: "待排版", tone: "warning" },
-            meta: "建议打印 A6 小卡",
-            action: "生成草稿",
-          },
+          { title: "周五记得带旧体检报告", subtitle: "医疗提醒 / 报告放在书桌左侧抽屉文件袋", status: { text: "重要", tone: "warning" }, meta: "创建于 08:12", action: "标记已办" },
+          { title: "重新整理租房合同扫描件", subtitle: "家庭资料 / 需要重命名并归档到个人信息库", status: { text: "待归档", tone: "pink" }, meta: "附件 3 个", action: "打开文件" },
+          { title: "阅读摘录：关于节奏感的设计思考", subtitle: "阅读笔记 / 关注留白、密度、次级信息的排序", status: { text: "已整理", tone: "success" }, meta: "可转入长期笔记", action: "继续编辑" },
+          { title: "给爸妈准备出行说明卡", subtitle: "旅行备忘 / 酒店地址、返程时间、联系方式", status: { text: "待排版", tone: "warning" }, meta: "建议打印 A6 小卡", action: "生成草稿" },
         ],
       },
       {
         title: "主题卡片",
-        note: "卡组用来模拟专题笔记入口。",
+        note: "更深一层，面向长期积累内容。",
         kind: "journal",
         items: [
           { title: "个人效率", text: "沉淀晨间启动清单、晚间复盘模版、周期计划复盘字段，以及任务标记方式。" },
@@ -487,7 +493,7 @@ const pages = [
       },
       {
         title: "灵感片段",
-        note: "更短更轻的卡片用于测试紧凑栅格。",
+        note: "末级内容用更轻的卡片承载。",
         kind: "compact",
         items: [
           { title: "布局方向", text: "桌面端强化双栏，手机端不做简单缩放而是重排层级。", meta: "UI 方向" },
@@ -524,10 +530,34 @@ const pages = [
     navMeta: "资料中心",
     heroTag: "Profile Hub",
     title: "个人信息页面",
-    description:
-      "聚合证件、联系人、偏好、常用地址、健康信息和账户摘要，作为未来功能联动的核心资料样板页。",
+    description: "把最常查、最常改的个人资料前置，证件、联系人和授权信息递进展开，避免所有字段在一开始就同时出现。",
     primaryAction: "编辑资料",
-    secondaryAction: "查看权限",
+    secondaryAction: "打开常用联系人",
+    focus: {
+      title: "常用资料入口",
+      summary: "优先让用户看到最常使用的姓名、手机号、住址、紧急联系人和提醒偏好，其余授权与健康补充延后展示。",
+      kpis: [
+        { label: "待补字段", value: "4 项" },
+        { label: "常用地址", value: "5 个" },
+        { label: "已授权模块", value: "7 个" },
+      ],
+      items: [
+        { title: "基础身份", text: "姓名、生日、手机号与邮箱放在第一层，方便高频确认。", meta: "信息最常被引用" },
+        { title: "联系人入口", text: "紧急联系人、家庭医生和常用服务联系人前置。", meta: "出行与健康场景高频使用" },
+        { title: "提醒偏好", text: "优先展示提醒方式与时间，方便其他页面复用。", meta: "未来功能联动核心" },
+      ],
+      meta: [
+        { label: "推荐路径", value: "常用资料 -> 联系人 -> 授权设置" },
+        { label: "层级策略", value: "高频引用字段高于补充性档案" },
+      ],
+      quickActions: ["编辑基础资料", "加联系人", "改提醒偏好", "查看授权"],
+      progress: [
+        { label: "高频操作", value: "查手机号、地址、联系人" },
+        { label: "第二层", value: "偏好与授权" },
+        { label: "深层信息", value: "健康补充与维护时间轴" },
+        { label: "当前状态", value: "适合完善缺漏字段" },
+      ],
+    },
     metrics: [
       { label: "资料模块", value: "18", meta: "身份证件、地址、联系人等" },
       { label: "待补字段", value: "04", meta: "紧急联系人和保险资料优先" },
@@ -537,7 +567,7 @@ const pages = [
     mainSections: [
       {
         title: "基础资料",
-        note: "未来会为其他页面提供统一引用，目前先保留信息结构和点击样板。",
+        note: "高频引用字段集中在同一组里，减少阅读成本。",
         kind: "fields",
         items: [
           { label: "姓名", value: "林知远" },
@@ -550,7 +580,7 @@ const pages = [
       },
       {
         title: "常用联系人",
-        note: "用档案卡片测试更密集的资料展示。",
+        note: "第二层放高频联系人，便于其他页面联动。",
         kind: "compact",
         items: [
           { title: "母亲 / 紧急联系人", text: "138 1111 5501 / 常住杭州", meta: "优先级 A" },
@@ -560,7 +590,7 @@ const pages = [
       },
       {
         title: "偏好与授权",
-        note: "模拟未来功能联动的设置区域。",
+        note: "深层管理信息放在第三层，适合深入设置。",
         kind: "split",
         left: {
           title: "生活偏好",
@@ -651,6 +681,116 @@ function createMetric(metric) {
     <div class="meta">${metric.meta}</div>
   `;
   return card;
+}
+
+function createFocusMain(page) {
+  const wrap = document.createElement("div");
+  wrap.className = "focus-main-content";
+  wrap.innerHTML = `
+    <div class="focus-head">
+      <div>
+        <p class="eyebrow">Primary Focus</p>
+        <h4>${page.focus.title}</h4>
+        <div class="focus-summary">${page.focus.summary}</div>
+      </div>
+      <button class="primary-button interactive" type="button" data-click-label="${page.primaryAction}">
+        ${page.primaryAction}
+      </button>
+    </div>
+  `;
+
+  const kpis = document.createElement("div");
+  kpis.className = "focus-kpis";
+  page.focus.kpis.forEach((item) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "focus-kpi interactive";
+    card.dataset.clickLabel = `${item.label} ${item.value}`;
+    card.innerHTML = `<span>${item.label}</span><strong>${item.value}</strong>`;
+    kpis.appendChild(card);
+  });
+  wrap.appendChild(kpis);
+
+  const list = document.createElement("div");
+  list.className = "focus-list";
+  page.focus.items.forEach((item) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "focus-item interactive";
+    card.dataset.clickLabel = item.title;
+    card.innerHTML = `
+      <strong>${item.title}</strong>
+      <div class="detail-text">${item.text}</div>
+      <div class="item-meta">${item.meta}</div>
+    `;
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+
+  const meta = document.createElement("div");
+  meta.className = "focus-meta";
+  page.focus.meta.forEach((item) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "field-row interactive";
+    card.dataset.clickLabel = item.label;
+    card.innerHTML = `<span>${item.label}</span><strong>${item.value}</strong>`;
+    meta.appendChild(card);
+  });
+  wrap.appendChild(meta);
+  return wrap;
+}
+
+function createFocusQuick(page) {
+  const wrap = document.createElement("div");
+  wrap.className = "focus-quick-content";
+  wrap.innerHTML = `
+    <div class="section-header">
+      <div>
+        <h4>常用操作</h4>
+        <div class="section-note">高频功能前置，避免用户绕到次级信息里。</div>
+      </div>
+    </div>
+  `;
+
+  const row = document.createElement("div");
+  row.className = "chip-row";
+  page.focus.quickActions.forEach((text, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `chip interactive${index === 0 ? " active" : ""}`;
+    button.dataset.clickLabel = text;
+    button.textContent = text;
+    row.appendChild(button);
+  });
+  wrap.appendChild(row);
+  return wrap;
+}
+
+function createFocusProgress(page) {
+  const wrap = document.createElement("div");
+  wrap.className = "focus-progress-content";
+  wrap.innerHTML = `
+    <div class="section-header">
+      <div>
+        <h4>信息层级</h4>
+        <div class="section-note">让用户先完成动作，再理解状态，最后进入深层信息。</div>
+      </div>
+    </div>
+  `;
+
+  const list = document.createElement("div");
+  list.className = "progress-list";
+  page.focus.progress.forEach((item) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "progress-item interactive";
+    card.dataset.clickLabel = `${item.label}`;
+    card.innerHTML = `<span>${item.label}</span><strong>${item.value}</strong>`;
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+  return wrap;
 }
 
 function createStatus(status) {
@@ -889,11 +1029,21 @@ function renderPage() {
   secondaryButton.textContent = page.secondaryAction;
   secondaryButton.dataset.clickLabel = page.secondaryAction;
 
+  fragment.querySelector('[data-field="focusMain"]').appendChild(createFocusMain(page));
+  fragment.querySelector('[data-field="focusQuick"]').appendChild(createFocusQuick(page));
+  fragment.querySelector('[data-field="focusProgress"]').appendChild(createFocusProgress(page));
+
   const metricGrid = fragment.querySelector('[data-field="metrics"]');
   page.metrics.forEach((metric) => metricGrid.appendChild(createMetric(metric)));
 
   const mainSections = fragment.querySelector('[data-field="mainSections"]');
-  page.mainSections.forEach((section) => mainSections.appendChild(createSection(section)));
+  page.mainSections.forEach((section, index) => {
+    const element = createSection(section);
+    if (index === 0) {
+      element.classList.add("emphasis");
+    }
+    mainSections.appendChild(element);
+  });
 
   const sideSections = fragment.querySelector('[data-field="sideSections"]');
   page.sideSections.forEach((section) => sideSections.appendChild(createSection(section)));
